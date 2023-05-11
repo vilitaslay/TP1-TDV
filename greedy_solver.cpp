@@ -22,24 +22,24 @@ void GreedySolver::solve() {
     //las filas son los vehículos
     //start timer
     auto begin = chrono::high_resolution_clock::now();
+
     vector<vector<double>> matrix_dist = this->_instance.dist;
     TaxiAssignmentSolution solucion = TaxiAssignmentSolution(this->_instance.n);
     int min_pos = 0;
     int dist_total = 0;
     for(int i = 0; i<matrix_dist.size();i++){
-         int minimo = 999;
-         for(int j = 0; j<matrix_dist.size();i++){
-             if(minimo>matrix_dist[i][j] && solucion.isTaxiAssigned(j)){
-                minimo = matrix_dist[i][j];
-                min_pos = j;
-            } 
+         double minimo = 9999;
+         for(int j = 0; j<matrix_dist.size();j++){
+             if(minimo>matrix_dist[j][i] && !solucion.isTaxiAssigned(j)){
+                minimo = matrix_dist[j][i];
+                min_pos = j;    
+            }
         }
         dist_total += minimo;
         solucion.assign(min_pos, i);
     }
     //stop timer
     this->_objective_value = dist_total;
-    this->_solution_status = 1;
     this->_solution = solucion;
     auto end = chrono::high_resolution_clock::now();
     auto elapse = chrono::duration_cast<chrono::nanoseconds>(end-begin);

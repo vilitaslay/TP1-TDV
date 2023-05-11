@@ -2,6 +2,7 @@
 #include "taxi_assignment_solution.h"
 #include "checker.h"
 #include "greedy_solver.h"
+using namespace std;
 
 
 int main(int argc, char** argv) {
@@ -15,6 +16,14 @@ int main(int argc, char** argv) {
     GreedySolver solver(instance);
 
     solver.solve();
+    TaxiAssignmentSolution solucion = solver.getSolution();
+    std::cout<<solucion<<std::endl;
+    cout<<solver.getObjectiveValue()<<endl;
+    cout<<solver.getSolutionStatus()<<endl;
+    cout<<solver.getSolutionTime()<<endl;
+
+
+
 
     return 0;
 }
