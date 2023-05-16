@@ -22,13 +22,12 @@ void GreedySolver::solve() {
     //las filas son los vehículos
     //start timer
     auto begin = chrono::high_resolution_clock::now();
-
     vector<vector<double>> matrix_dist = this->_instance.dist;
     TaxiAssignmentSolution solucion = TaxiAssignmentSolution(this->_instance.n);
     int min_pos = 0;
-    int dist_total = 0;
+    double dist_total = 0;
     for(int i = 0; i<matrix_dist.size();i++){
-         double minimo = 9999;
+         double minimo = 99999;
          for(int j = 0; j<matrix_dist.size();j++){
              if(minimo>matrix_dist[j][i] && !solucion.isTaxiAssigned(j)){
                 minimo = matrix_dist[j][i];
