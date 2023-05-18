@@ -7,7 +7,7 @@ GreedySolver::GreedySolver(TaxiAssignmentInstance &instance) {
     this->_instance = instance;
     this->_objective_value = 0;
     this->_solution_status = 0;
-    this->_solution_time = 0;
+    this->_solution_time = 000;
 }
 
 void GreedySolver::setInstance(TaxiAssignmentInstance &instance) {
