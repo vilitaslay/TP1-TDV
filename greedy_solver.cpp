@@ -23,7 +23,7 @@ void GreedySolver::solve() {
     int min_pos = 0;
     double dist_total = 0;
     for(int i = 0; i<matrix_dist.size();i++){
-         double minimo = 99999;
+         double minimo = 999999;
          for(int j = 0; j<matrix_dist.size();j++){
              if(minimo>matrix_dist[j][i] && !solucion.isTaxiAssigned(j)){
                 minimo = matrix_dist[j][i];
