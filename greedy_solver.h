@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <vector>
 #include <iostream>
+#include <chrono>
 #include "taxi_assignment_instance.h"
 #include "taxi_assignment_solution.h"
 

@@ -1,9 +1,5 @@
 #include "greedy_solver.h"
-#include <vector>
-#include <algorithm>
-#include <chrono>
 using namespace std;
-
 
 GreedySolver::GreedySolver() {}
 
@@ -61,3 +57,5 @@ int GreedySolver::getSolutionStatus() const {
 double GreedySolver::getSolutionTime() const {
     return this->_solution_time;
 }
+
+

@@ -27,7 +27,6 @@ void MinCostFlowSolver::solve() {
     this->_solution_time = elapsed.count();
     // Obtain the solution, construct the corresponding object and record de desired parameters.
     if (status == operations_research::MinCostFlow::OPTIMAL) {
-        this->_objective_value = this->_min_cost_flow.OptimalCost();
         std::cout << "Minimum cost flow: " << this->_min_cost_flow.OptimalCost() << std::endl;
         std::cout << "";
         std::cout << " Arc   Flow / Capacity  Cost" << std::endl;
