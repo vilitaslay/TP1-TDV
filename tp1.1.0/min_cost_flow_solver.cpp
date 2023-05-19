@@ -111,7 +111,13 @@ void MinCostFlowSolver::_createMinCostFlowNetwork() {
 }
 
 void MinCostFlowSolver::_createSolutionInfo() {
-
+    cout<< "----INFORMACION----"<<endl;
+    cout<< "Valor objetivo: " << this->_objective_value <<endl;
+    cout<< "Status de la solución: "<< this->_solution_status <<endl;
+    cout<< "Tiempo de la solución: "<< this->_solution_time<<endl;
+    cout<< "Solución: " <<endl;
+    cout<< this->_solution <<endl;
+    cout<< "-------------------"<<endl
 }
 
 
