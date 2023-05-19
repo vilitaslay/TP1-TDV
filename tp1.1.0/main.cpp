@@ -9,6 +9,7 @@ int main(int argc, char** argv) {
     std::string filename = "input/small_1.csv";
 
     TaxiAssignmentInstance instance(filename);
+    TaxiAssignmentInstance instance2(filename);
     std::cout << filename << std::endl;
 
     TaxiAssignmentSolution solution(instance.n);
@@ -24,13 +25,13 @@ int main(int argc, char** argv) {
     cout<<solver.getSolutionStatus()<<endl;
     cout<<solver.getSolutionTime()<<endl;
 
-    MinCostFlowSolver solverpro(instance);
-    solverpro.solve();
-    TaxiAssignmentSolution MCF=solverpro.getSolution();
-    cout<<MCF<<endl;
-    cout<<solverpro.getObjectiveValue()<<endl;
-    cout<<solverpro.getSolutionStatus()<<endl;
-    cout<<solverpro.getSolutionTime()<<endl;
+    MinCostFlowSolver::MinCostFlowSolversolverpro(instance2);
+    solverpro.MinCostFlowSolver::solve();
+    // TaxiAssignmentSolution MCF=MinCostFlowSolver::solverpro.getSolution();
+    // cout<<MCF<<endl;
+    // cout<<MinCostFlowSolver::solverpro.getObjectiveValue()<<endl;
+    // cout<<MinCostFlowSolver::solverpro.getSolutionStatus()<<endl;
+    // cout<<MinCostFlowSolver::solverpro.getSolutionTime()<<endl;
 
 
     return 0;
