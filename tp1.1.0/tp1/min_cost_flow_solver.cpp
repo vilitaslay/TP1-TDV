@@ -15,16 +15,13 @@ void MinCostFlowSolver::setInstance(TaxiAssignmentInstance &instance) {
 }
 
 void MinCostFlowSolver::solve() {
-    auto begin = chrono::high_resolution_clock::now();
+
     // Create the min cost network flow instance.
     this->_createMinCostFlowNetwork();
 
     // Obtain the solve the problem.
     int status = this->_min_cost_flow.Solve();
-    this->_solution_status = status;
-    auto end = chrono::high_resolution_clock::now();
-    auto elapsed = chrono::duration_cast<chrono:nanoseconds>(end-begin);
-    this->_solution_time = elapsed.count();
+
     // Obtain the solution, construct the corresponding object and record de desired parameters.
     if (status == operations_research::MinCostFlow::OPTIMAL) {
         std::cout << "Minimum cost flow: " << this->_min_cost_flow.OptimalCost() << std::endl;
@@ -114,13 +111,7 @@ void MinCostFlowSolver::_createMinCostFlowNetwork() {
 }
 
 void MinCostFlowSolver::_createSolutionInfo() {
-    cout<< "----INFORMACION----"<<endl;
-    cout<< "Valor objetivo: " << this->_objective_value <<endl;
-    cout<< "Status de la solución: "<< this->_solution_status <<endl;
-    cout<< "Tiempo de la solución: "<< this->_solution_time<<endl;
-    cout<< "Solución: " <<endl;
-    cout<< this->_solution <<endl;
-    cout<< "-------------------"<<endl
+
 }
 
 

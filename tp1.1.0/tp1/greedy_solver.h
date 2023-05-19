@@ -8,6 +8,7 @@
 #include "taxi_assignment_instance.h"
 #include "taxi_assignment_solution.h"
 
+using namespace std;
 
 class GreedySolver
 {
