@@ -2,6 +2,7 @@
 #include "taxi_assignment_solution.h"
 #include "checker.h"
 #include "greedy_solver.h"
+#include "min_cost_flow_solver.h"
 using namespace std;
 
 int main(int argc, char** argv) {
@@ -16,11 +17,20 @@ int main(int argc, char** argv) {
 
     solver.solve();
 
-    TaxiAssignmentSolution solucion = solver.getSolution();
-    std::cout<<solucion<<std::endl;
+    TaxiAssignmentSolution FCFS = solver.getSolution();
+    std::cout<<FCFS<<std::endl;
     cout<<solver.getObjectiveValue()<<endl;
     cout<<solver.getSolutionStatus()<<endl;
     cout<<solver.getSolutionTime()<<endl;
+
+    MinCostFlowSolver solverpro(instance);
+    solverpro.solve();
+    TaxiAssignmentSolution MCF=solverpro.getSolution();
+    cout<<MCF<<endl;
+    cout<<solverpro.getObjectiveValue()<<endl;
+    cout<<solverpro.getSolutionStatus()<<endl;
+    cout<<solverpro.getSolutionTime()<<endl;
+
 
     return 0;
 }
