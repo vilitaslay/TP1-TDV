@@ -15,6 +15,7 @@ void BatchingSolver::setInstance(TaxiAssignmentInstance &instance) {
 }
 
 void BatchingSolver::solve() {
+    
 
 }
 
