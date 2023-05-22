@@ -25,8 +25,8 @@ int main(int argc, char** argv) {
     cout<<solver.getSolutionStatus()<<endl;
     cout<<solver.getSolutionTime()<<endl;
 
-    MinCostFlowSolver::MinCostFlowSolversolverpro(instance2);
-    solverpro.MinCostFlowSolver::solve();
+    MinCostFlowSolver  solver2(instance2);
+    solver2.solve();
     // TaxiAssignmentSolution MCF=MinCostFlowSolver::solverpro.getSolution();
     // cout<<MCF<<endl;
     // cout<<MinCostFlowSolver::solverpro.getObjectiveValue()<<endl;
