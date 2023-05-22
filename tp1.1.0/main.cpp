@@ -2,7 +2,8 @@
 #include "taxi_assignment_solution.h"
 #include "checker.h"
 #include "greedy_solver.h"
-#include "min_cost_flow_solver.h"
+#include "taxi_assignment_batching_solver.h"
+
 
 
 int main(int argc, char** argv) {
@@ -25,14 +26,7 @@ int main(int argc, char** argv) {
     cout<<solver.getSolutionStatus()<<endl;
     cout<<solver.getSolutionTime()<<endl;
 
-    MinCostFlowSolver  solver2(instance2);
+    BatchingSolver solver2(instance2);
     solver2.solve();
-    // TaxiAssignmentSolution MCF=MinCostFlowSolver::solverpro.getSolution();
-    // cout<<MCF<<endl;
-    // cout<<MinCostFlowSolver::solverpro.getObjectiveValue()<<endl;
-    // cout<<MinCostFlowSolver::solverpro.getSolutionStatus()<<endl;
-    // cout<<MinCostFlowSolver::solverpro.getSolutionTime()<<endl;
-
-
     return 0;
 }
