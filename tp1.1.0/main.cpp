@@ -28,5 +28,8 @@ int main(int argc, char** argv) {
 
     BatchingSolver solver2(instance2);
     solver2.solve();
+    cout<<solver2.getObjectiveValue()<<endl;
+    cout<<solver2.getSolutionStatus()<<endl;
+    cout<<solver2.getSolutionTime()<<endl;
     return 0;
 }
