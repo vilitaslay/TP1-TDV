@@ -23,22 +23,22 @@ void BatchingSolver :: solve() {
     int status = _grafo.Solve();
     //Esto resuelve el grafo? los escucho
     //esto lo hace lo q esta aca abajo
-    if (status == operations_research::MinCostFlow::OPTIMAL) {
-        std::cout << "Flujo de costo minimo " << _grafo.OptimalCost() << std::endl;
-        std::cout << "";
-        std::cout << " (Flujo / Capacidad)  Costo" << std::endl; //capacity cost es el costo no? por q carajo le dice capacity cost
-        for (std::size_t i = 0; i < _grafo.NumArcs(); ++i) {
-            int64_t flow = _grafo.Flow(i);
-            if (flow == 0) continue;
-            int64_t cost = _grafo.Flow(i) * _grafo.UnitCost(i);
-            std::cout << _grafo.Tail(i) << " -> " << _grafo.Head(i)
-                        << "  " << _grafo.Flow(i) << "  / "
-                        << _grafo.Capacity(i) << "       " << cost << std::endl;
-        }
-    } else {
-        std::cout << "Solving the min cost flow problem failed. Solver status: "
-                << status << std::endl;
-    }
+    // if (status == operations_research::MinCostFlow::OPTIMAL) {
+    //     std::cout << "Flujo de costo minimo " << _grafo.OptimalCost() << std::endl;
+    //     std::cout << "";
+    //     std::cout << " (Flujo / Capacidad)  Costo" << std::endl; //capacity cost es el costo no? por q carajo le dice capacity cost
+    //     for (std::size_t i = 0; i < _grafo.NumArcs(); ++i) {
+    //         int64_t flow = _grafo.Flow(i);
+    //         if (flow == 0) continue;
+    //         int64_t cost = _grafo.Flow(i) * _grafo.UnitCost(i);
+    //         std::cout << _grafo.Tail(i) << " -> " << _grafo.Head(i)
+    //                     << "  " << _grafo.Flow(i) << "  / "
+    //                     << _grafo.Capacity(i) << "       " << cost << std::endl;
+    //     }
+    // } else {
+    //     std::cout << "Solving the min cost flow problem failed. Solver status: "
+    //             << status << std::endl;
+    // }
     this->_objective_value=(_grafo.OptimalCost())/10.00;
     this->_solution_status=status;
     auto end = std::chrono::high_resolution_clock::now();

@@ -4,6 +4,7 @@
         "*.excalidraw": "json",
         "*.excalidrawlib": "json",
         "iostream": "cpp",
-        "chrono": "cpp"
+        "chrono": "cpp",
+        "ostream": "cpp"
     }
 }
