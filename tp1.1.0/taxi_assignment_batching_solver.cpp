@@ -14,10 +14,10 @@ void BatchingSolver::setInstance(TaxiAssignmentInstance &instance) {
     this->_instance = instance;
 }
 
-void BatchingSolver :: solve() {
+void BatchingSolver :: solve(int formato) {
 
     auto begin = std::chrono::high_resolution_clock::now();
-    create_graph();
+    create_graph(formato);
     // okay
 
     int status = _grafo.Solve();
@@ -39,7 +39,13 @@ void BatchingSolver :: solve() {
     //     std::cout << "Solving the min cost flow problem failed. Solver status: "
     //             << status << std::endl;
     // }
-    this->_objective_value=(_grafo.OptimalCost())/10.00;
+    //Reconstruimos la solucion
+    if(formato=!0){
+        for (std::size_t i = 0; i < _grafo.NumArcs(); ++i) {
+            this->_objective_value+=_grafo.Flow(i)*this->_instance.dist[_grafo.Tail(i)][_grafo.Head(i)-this->_instance.n]+0.00;
+        }
+    }
+    else{this->_objective_value=(_grafo.OptimalCost())/10.00;}
     this->_solution_status=status;
     auto end = std::chrono::high_resolution_clock::now();
     auto elapse = std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin);
@@ -49,9 +55,12 @@ void BatchingSolver :: solve() {
 }
 
 
-void BatchingSolver::create_graph() {
+void BatchingSolver::create_graph(int formato) {
     int n = this->_instance.n;
+    int parametro;
     //Instanciamos las aristas
+    std::vector<double> precios=this->_instance.pax_tot_fare;
+    std::vector<double> distpas=this->_instance.pax_trip_dist;
     std::vector<int64_t> taxis(n*n, -1);
     std::vector<int64_t> pasajeros(n*n, -1);
     std::vector<int64_t> capacidad(n*n, 1);
@@ -73,10 +82,27 @@ void BatchingSolver::create_graph() {
         balance[i] = 1; // balance de los taxis
         balance[n + i] = -1; //balance de los pasajeros
     }
-    //creamos el grafo
-    for (int i = 0; i < taxis.size(); ++i) {
-        int arc = _grafo.AddArcWithCapacityAndUnitCost(taxis[i], pasajeros[i], capacidad[i], distancia[i]);
-        if (arc != i) LOG(FATAL) << "Internal error";
+    if(formato==0){
+        for (int i = 0; i < taxis.size(); ++i) {
+            int arc = _grafo.AddArcWithCapacityAndUnitCost(taxis[i], pasajeros[i], capacidad[i], distancia[i]);
+            if (arc != i) LOG(FATAL) << "Internal error";
+        }
+    }
+    else if(formato==1){
+        for (int i = 0; i < taxis.size(); ++i) {
+            int j=i%n;
+            parametro=(distancia[i]/precios[j])*100;
+            int arc = _grafo.AddArcWithCapacityAndUnitCost(taxis[i], pasajeros[i], capacidad[i], parametro);
+            if (arc != i) LOG(FATAL) << "Internal error";
+        }        
+    }
+    else{
+        for (int i = 0; i < taxis.size(); ++i) {
+            int j=i%n;
+            parametro= (distancia[i]/distpas[j])*100;
+            int arc = _grafo.AddArcWithCapacityAndUnitCost(taxis[i], pasajeros[i], capacidad[i],parametro);
+            if (arc != i) LOG(FATAL) << "Internal error";
+        }    
     }
     // Agregamos el balance
     for (int i = 0; i < balance.size(); ++i) {

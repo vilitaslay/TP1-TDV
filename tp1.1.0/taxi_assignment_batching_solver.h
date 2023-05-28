@@ -1,6 +1,7 @@
 #ifndef TAXI_ASSIGNMENT_BATCHING_SOLVER_H
 #define TAXI_ASSIGNMENT_BATCHING_SOLVER_H
 
+#include <cmath>
 #include <cstdint>
 #include <vector>
 #include <iostream>
@@ -17,8 +18,8 @@ class BatchingSolver
         BatchingSolver(TaxiAssignmentInstance &instance);
 
         void setInstance(TaxiAssignmentInstance &instance);
-        void create_graph();
-        void solve();
+        void create_graph(int formato);
+        void solve(int formato);
 
         double getObjectiveValue() const;
         TaxiAssignmentSolution getSolution() const;
