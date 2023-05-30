@@ -17,16 +17,13 @@ void BatchingSolver::setInstance(TaxiAssignmentInstance &instance) {
 void BatchingSolver :: solve(int formato) {
 
     auto begin = std::chrono::high_resolution_clock::now();
-    create_graph(formato);
-    // okay
-
+    create_graph(formato);// creamos el grafo
     int status = _grafo.Solve();
-    //Esto resuelve el grafo? los escucho
-    //esto lo hace lo q esta aca abajo
+    // Esto imprime las combinaciones que se realizaron
     // if (status == operations_research::MinCostFlow::OPTIMAL) {
     //     std::cout << "Flujo de costo minimo " << _grafo.OptimalCost() << std::endl;
     //     std::cout << "";
-    //     std::cout << " (Flujo / Capacidad)  Costo" << std::endl; //capacity cost es el costo no? por q carajo le dice capacity cost
+    //     std::cout << " (Flujo / Capacidad)  Costo" << std::endl;
     //     for (std::size_t i = 0; i < _grafo.NumArcs(); ++i) {
     //         int64_t flow = _grafo.Flow(i);
     //         if (flow == 0) continue;
@@ -40,6 +37,10 @@ void BatchingSolver :: solve(int formato) {
     //             << status << std::endl;
     // }
     //Reconstruimos la solucion
+
+    //si el formato es uno de los nuevos, en donde los costos del grafo no son las distancias, sino los ratios que explicamos en el informe.
+    
+    
     if(formato=!0){
         for (std::size_t i = 0; i < _grafo.NumArcs(); ++i) {
             this->_objective_value+=_grafo.Flow(i)*this->_instance.dist[_grafo.Tail(i)][_grafo.Head(i)-this->_instance.n]+0.00;
@@ -61,27 +62,29 @@ void BatchingSolver::create_graph(int formato) {
     //Instanciamos las aristas
     std::vector<double> precios=this->_instance.pax_tot_fare;
     std::vector<double> distpas=this->_instance.pax_trip_dist;
-    std::vector<int64_t> taxis(n*n, -1);
-    std::vector<int64_t> pasajeros(n*n, -1);
-    std::vector<int64_t> capacidad(n*n, 1);
-    std::vector<int64_t> distancia(n*n, -1);
+    std::vector<int64_t> taxis(n*n, -1); // Representan los inicios de las aristas
+    std::vector<int64_t> pasajeros(n*n, -1); // Representan los finales de las aristas
+    std::vector<int64_t> capacidad(n*n, 1); // todas las capacidades de las aristas
+    std::vector<int64_t> distancia(n*n, -1); // todas las distancias de las aristas
     int indice = 0;
-    //Creamos las 
+    //Creamos todos los inicios de las aristas y los finales
     for (int i = 0; i < this->_instance.n; i++) {
         for (int j = this->_instance.n; j < 2*this->_instance.n; j++) {
             taxis[indice] = i; // Los indices representan las aristas, i representa el nodo del cual sale esa arista
+            //Primero armamos todas las aristas que salen de un nodo, y al finalizar con ese nodo pasamos al proximo.
             pasajeros[indice] = j; // Los indices represntas las aristas. 
             // i seria el inicio de la arista, y j el final
             distancia[indice] = 10*this->_instance.dist[i][j - n]; //Guarda las distiancias en numeros enteros
             indice++;
         }
     }
-
+    //De esta manera creamos un nodo bipartito con los taxis a la izquierda y los pasajeros a la derecha.
     std::vector<int64_t> balance(2*n, 0);
     for (int i = 0; i < this->_instance.n; i++) {
         balance[i] = 1; // balance de los taxis
         balance[n + i] = -1; //balance de los pasajeros
     }
+    // Con el formato elegimos el tipo de batching que queremos realizar. y agregamos los arcos en funcion al formato.
     if(formato==0){
         for (int i = 0; i < taxis.size(); ++i) {
             int arc = _grafo.AddArcWithCapacityAndUnitCost(taxis[i], pasajeros[i], capacidad[i], distancia[i]);

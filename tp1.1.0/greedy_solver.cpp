@@ -21,6 +21,7 @@ void GreedySolver::solve() {
     TaxiAssignmentSolution solucion = TaxiAssignmentSolution(this->_instance.n);
     int min_pos = 0;
     double dist_total = 0;
+    // Agarramos al primer pasajero y nos fijamos los taxis. Agarramos el taxi que esta mas cerca y asignamos el taxi, asi no lo puede usar otro usuario
     for(int i = 0; i<matrix_dist.size();i++){
          double minimo = 999999;
          for(int j = 0; j<matrix_dist.size();j++){
