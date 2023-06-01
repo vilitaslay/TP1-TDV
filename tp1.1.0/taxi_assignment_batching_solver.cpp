@@ -55,11 +55,14 @@ void BatchingSolver :: solve(int formato) {
         for (std::size_t i = 0; i < _grafo.NumArcs(); ++i){
             double aux=this->_instance.pax_trip_dist[_grafo.Head(i)-this->_instance.n];
             double aux1=this->_instance.pax_tot_fare[_grafo.Head(i)-this->_instance.n];
-
+            if(aux1<=0){
+                    aux1=0.05;
+            }
+            if(aux<=0){
+                    aux=0.05;
+            }
             double aux2 = aux*aux1;
-            if(aux2==0){
-                    aux2=0.01;
-                }
+      
             
             this->_rent+=100*(_grafo.Flow(i)*this->_instance.dist[_grafo.Tail(i)][_grafo.Head(i)-this->_instance.n]+0.00)/(aux2);   
             // std::cout<<"taxi "<< _grafo.Tail(i) <<" ---> pax "<< _grafo.Head(i)- this->_instance.n << " Rentabilidad: " << (_grafo.Flow(i)*this->_instance.dist[_grafo.Tail(i)][_grafo.Head(i)-this->_instance.n]+0.00)/(aux2) << std::endl;         
@@ -113,8 +116,8 @@ void BatchingSolver::create_graph(int formato) {
         for (int i = 0; i < taxis.size(); ++i) {
             int j=i%n;
             double aux = precios[j]*distpas[j];
-            if (aux == 0){
-                aux=0.01;
+            if (aux <=0){
+                aux=0.05;
             }
             parametro=(distancia[i]/aux)*100;
             int arc = _grafo.AddArcWithCapacityAndUnitCost(taxis[i], pasajeros[i], capacidad[i], parametro);
