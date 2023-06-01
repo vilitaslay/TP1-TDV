@@ -7,7 +7,7 @@
 void ejercicio4(string filename, vector<string> directorio){
     fstream fout;
     fout.open(filename, ios::out);
-    fout << "Dataset,Solucion Greedy,Solucion Batching 0,Solucion Batching 1,Rentabilidad Greedy, Rentabilidad Batching 0, Rentabilidad Batching 1,Mejora Comparativa Greedy-Batching 1,Mejora Comparativa Greedy-Batching 1,Mejora Rentabilidad Greedy-Batching 1,Mejora Rentabilidad Batching 0-Batching 1,Tiempo Greedy,Tiempo Batching 0, Diferencia de tiempo Greedy-Batching 0,\n";
+    fout << "Dataset,Solucion Greedy,Solucion Batching 0,Solucion Batching 1,Rentabilidad Greedy, Rentabilidad Batching 0, Rentabilidad Batching 1,Mejora Comparativa Greedy vs. Batching 0,Mejora Comparativa Greedy vs. Batching 1,Mejora Comparativa Batching 1 vs. Batching 0,Mejora Rentabilidad Greedy vs. Batching 1,Mejora Rentabilidad Batching 0 vs. Batching 1,Tiempo Greedy,Tiempo Batching 0, Diferencia de tiempo Greedy vs. Batching 0\n";
     for(string i : directorio){
         TaxiAssignmentInstance instance(i);
         GreedySolver Gsolver (instance);
@@ -34,12 +34,14 @@ void ejercicio4(string filename, vector<string> directorio){
 
         float gap1 = (zg - zb1)/zb1;
 
+        float gapBatching = (zb1-zb0)/zb0;
+
         //Testeamos la mejora en rentabilidad entre los Batchings y contra Greedy
         float rgap = (r0-r1)/r1;
         float rgapGB1 = (rg-r1)/r1;
         
         
-        fout << i <<","<< zg <<","<< zb0 <<","<< zb1 <<","<< rg <<","<< r0 <<","<< r1 <<","<< gap0 <<","<< gap1 <<","<<rgapGB1<<","<< rgap <<","<< tg <<","<< tb0 <<","<< tgap0 <<"\n";
+        fout << i <<","<< zg <<","<< zb0 <<","<< zb1 <<","<< rg <<","<< r0 <<","<< r1 <<","<< gap0 <<","<< gap1<<","<<gapBatching<<","<<rgapGB1<<","<< rgap <<","<< tg <<","<< tb0 <<","<< tgap0 <<"\n";
     }
     fout.close();
     //espera a q te devuelvan el parcial pero si aprobas amigo tipo espera a fijarte cuando te la devuelvan. deberian dartelo pronto
