@@ -48,16 +48,11 @@ void BatchingSolver :: solve(int formato) {
             this->_objective_value+=_grafo.Flow(i)*this->_instance.dist[_grafo.Tail(i)][_grafo.Head(i)-this->_instance.n]+0.00;
 
             if (formato==1){
-
-                this->_rent_fare=_grafo.OptimalCost();
                 double aux=this->_instance.pax_trip_dist[_grafo.Head(i)-this->_instance.n];
-
-                if(aux==0){
-                    aux=0.01;
-                }
-                
+                this->_rent_fare=_grafo.OptimalCost()/10;                
+                if(aux==0){aux=0.01;}
                 this->_rent_dist+=100*(_grafo.Flow(i)*this->_instance.dist[_grafo.Tail(i)][_grafo.Head(i)-this->_instance.n]+0.00)/aux;                
-                }
+            }
             else{
 
                 double aux=this->_instance.pax_tot_fare[_grafo.Head(i)-this->_instance.n];
@@ -67,7 +62,7 @@ void BatchingSolver :: solve(int formato) {
                 
                 }
                 this->_rent_fare+=100*(_grafo.Flow(i)*this->_instance.dist[_grafo.Tail(i)][_grafo.Head(i)-this->_instance.n]+0.00)/aux;
-                this->_rent_dist=_grafo.OptimalCost();
+                this->_rent_dist=_grafo.OptimalCost()/10;
                 
                 }   
         }
