@@ -8,6 +8,8 @@ BatchingSolver::BatchingSolver(TaxiAssignmentInstance &instance) {
     this->_objective_value = 0;
     this->_solution_status = 0;
     this->_solution_time = 0;
+    this->_rent_dist=0;
+    this->_rent_fare=0;
 }
 
 void BatchingSolver::setInstance(TaxiAssignmentInstance &instance) {
@@ -19,7 +21,7 @@ void BatchingSolver :: solve(int formato) {
     auto begin = std::chrono::high_resolution_clock::now();
     create_graph(formato);// creamos el grafo
     int status = _grafo.Solve();
-    // Esto imprime las combinaciones que se realizaron
+    // // Esto imprime las combinaciones que se realizaron
     // if (status == operations_research::MinCostFlow::OPTIMAL) {
     //     std::cout << "Flujo de costo minimo " << _grafo.OptimalCost() << std::endl;
     //     std::cout << "";
@@ -41,24 +43,66 @@ void BatchingSolver :: solve(int formato) {
     //si el formato es uno de los nuevos, en donde los costos del grafo no son las distancias, sino los ratios que explicamos en el informe.
     
     
-    if(formato=!0){
+    if(formato!=0){
         for (std::size_t i = 0; i < _grafo.NumArcs(); ++i) {
             this->_objective_value+=_grafo.Flow(i)*this->_instance.dist[_grafo.Tail(i)][_grafo.Head(i)-this->_instance.n]+0.00;
+
+            if (formato==1){
+
+                this->_rent_fare=_grafo.OptimalCost();
+                double aux=this->_instance.pax_trip_dist[_grafo.Head(i)-this->_instance.n];
+
+                if(aux==0){
+                    aux=0.01;
+                }
+                
+                this->_rent_dist+=100*(_grafo.Flow(i)*this->_instance.dist[_grafo.Tail(i)][_grafo.Head(i)-this->_instance.n]+0.00)/aux;                
+                }
+            else{
+
+                double aux=this->_instance.pax_tot_fare[_grafo.Head(i)-this->_instance.n];
+                
+                if(aux==0){
+                    aux=0.01;
+                
+                }
+                this->_rent_fare+=100*(_grafo.Flow(i)*this->_instance.dist[_grafo.Tail(i)][_grafo.Head(i)-this->_instance.n]+0.00)/aux;
+                this->_rent_dist=_grafo.OptimalCost();
+                
+                }   
         }
     }
-    else{this->_objective_value=(_grafo.OptimalCost())/10.00;}
+    else{
+        this->_objective_value=(_grafo.OptimalCost())/10.00;
+        for (std::size_t i = 0; i < _grafo.NumArcs(); ++i){
+
+            double aux=100*(_grafo.Flow(i)*this->_instance.dist[_grafo.Tail(i)][_grafo.Head(i)-this->_instance.n]+0.00);
+            
+            double dist=this->_instance.pax_trip_dist[_grafo.Head(i)-this->_instance.n];
+            
+            if(dist==0){dist=0.01;}
+            
+            double rent=this->_instance.pax_tot_fare[_grafo.Head(i)-this->_instance.n];
+            
+            if(rent==0){rent=0.01;}
+            this->_rent_dist+=aux/dist;
+            this->_rent_fare+=aux/rent;
+        }
+    }
+
     this->_solution_status=status;
     auto end = std::chrono::high_resolution_clock::now();
     auto elapse = std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin);
     this->_solution_time = elapse.count();
-    
+    this->_rent_dist/=100;
+    this->_rent_fare/=100;
 
 }
 
 
 void BatchingSolver::create_graph(int formato) {
     int n = this->_instance.n;
-    int parametro;
+    double parametro;
     //Instanciamos las aristas
     std::vector<double> precios=this->_instance.pax_tot_fare;
     std::vector<double> distpas=this->_instance.pax_trip_dist;
@@ -94,6 +138,9 @@ void BatchingSolver::create_graph(int formato) {
     else if(formato==1){
         for (int i = 0; i < taxis.size(); ++i) {
             int j=i%n;
+            if (precios[j]==0){
+                precios[j]=0.01;
+            }
             parametro=(distancia[i]/precios[j])*100;
             int arc = _grafo.AddArcWithCapacityAndUnitCost(taxis[i], pasajeros[i], capacidad[i], parametro);
             if (arc != i) LOG(FATAL) << "Internal error";
@@ -102,6 +149,9 @@ void BatchingSolver::create_graph(int formato) {
     else{
         for (int i = 0; i < taxis.size(); ++i) {
             int j=i%n;
+            if (distpas[j]==0){
+                distpas[j]=0.01;
+            }
             parametro= (distancia[i]/distpas[j])*100;
             int arc = _grafo.AddArcWithCapacityAndUnitCost(taxis[i], pasajeros[i], capacidad[i],parametro);
             if (arc != i) LOG(FATAL) << "Internal error";
@@ -129,4 +179,10 @@ double BatchingSolver::getSolutionTime() const {
     return this->_solution_time;
 }
 
+double BatchingSolver::getRentFare() const {
+    return this->_rent_fare;
+}
 
+double BatchingSolver::getRentDist() const {
+    return this->_rent_dist;
+}

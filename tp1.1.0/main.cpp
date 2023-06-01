@@ -66,14 +66,27 @@ int main(int argc, char** argv) {
     // std::cout<<solver.getSolutionTime()<<std::endl;
 
     BatchingSolver solver2(instance);
-    solver2.solve(1);
+    solver2.solve(0);
     std::cout<<solver2.getObjectiveValue()<<std::endl;
-    std::cout<<solver2.getSolutionStatus()<<std::endl;
-    std::cout<<solver2.getSolutionTime()<<std::endl;
+    std::cout<<solver2.getRentDist()<<std::endl;
+    std::cout<<solver2.getRentFare()<<std::endl;
 
+    BatchingSolver solver3(instance);
+    solver3.solve(1);
+    std::cout<<solver3.getObjectiveValue()<<std::endl;
+    std::cout<<solver3.getRentDist()<<std::endl;
+    std::cout<<solver3.getRentFare()<<std::endl;
     
-    std::vector<string> directorio = {"input/small_0.csv", "input/small_1.csv", "input/small_2.csv", "input/small_3.csv", "input/small_4.csv", "input/small_5.csv", "input/small_6.csv", "input/small_7.csv", "input/small_8.csv", "input/small_9.csv", "input/medium_0.csv", "input/medium_1.csv", "input/medium_2.csv", "input/medium_3.csv", "input/medium_4.csv", "input/medium_5.csv", "input/medium_6.csv", "input/medium_7.csv", "input/medium_8.csv", "input/medium_9.csv", "input/large_0.csv", "input/large_1.csv", "input/large_2.csv", "input/large_3.csv", "input/large_4.csv", "input/large_5.csv", "input/large_6.csv", "input/large_7.csv", "input/large_8.csv", "input/large_9.csv", "input/xl_0.csv", "input/xl_1.csv", "input/xl_2.csv", "input/xl_3.csv", "input/xl_4.csv", "input/xl_5.csv", "input/xl_6.csv", "input/xl_7.csv", "input/xl_8.csv", "input/xl_9.csv"};
-    ejercicio4("Experimentacion",directorio); //PITAZO
+
+    BatchingSolver solver4(instance);
+    solver4.solve(2);
+    std::cout<<solver4.getObjectiveValue()<<std::endl;
+    std::cout<<solver4.getRentDist()<<std::endl;
+    std::cout<<solver4.getRentFare()<<std::endl;
+    
+    
+    // std::vector<string> directorio = {"input/small_0.csv", "input/small_1.csv", "input/small_2.csv", "input/small_3.csv", "input/small_4.csv", "input/small_5.csv", "input/small_6.csv", "input/small_7.csv", "input/small_8.csv", "input/small_9.csv", "input/medium_0.csv", "input/medium_1.csv", "input/medium_2.csv", "input/medium_3.csv", "input/medium_4.csv", "input/medium_5.csv", "input/medium_6.csv", "input/medium_7.csv", "input/medium_8.csv", "input/medium_9.csv", "input/large_0.csv", "input/large_1.csv", "input/large_2.csv", "input/large_3.csv", "input/large_4.csv", "input/large_5.csv", "input/large_6.csv", "input/large_7.csv", "input/large_8.csv", "input/large_9.csv", "input/xl_0.csv", "input/xl_1.csv", "input/xl_2.csv", "input/xl_3.csv", "input/xl_4.csv", "input/xl_5.csv", "input/xl_6.csv", "input/xl_7.csv", "input/xl_8.csv", "input/xl_9.csv"};
+    // ejercicio4("Experimentacion",directorio); //PITAZO
 
 
 

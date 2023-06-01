@@ -25,9 +25,9 @@ class BatchingSolver
         TaxiAssignmentSolution getSolution() const;
         int getSolutionStatus() const;
         double getSolutionTime() const;
+        double getRentFare() const;
+        double getRentDist() const;
         
-        
-	
 	private:
         // Completar con lo que sea necesario.
  
@@ -37,6 +37,8 @@ class BatchingSolver
         TaxiAssignmentSolution _solution;
         operations_research::SimpleMinCostFlow _grafo;
         double _objective_value;
+        double _rent_dist;
+        double _rent_fare;
         int _solution_status;
         double _solution_time;
 
