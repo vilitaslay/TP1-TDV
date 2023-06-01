@@ -32,8 +32,8 @@ void GreedySolver::solve() {
            }
         }
         double aux = this->_instance.pax_tot_fare[i]*this->_instance.pax_trip_dist[i];
-        if(aux == 0){
-            aux = 0.01;
+        if(aux <= 0){
+            aux = 0.05;
         }
         this->_rent += minimo/aux;
         dist_total += minimo;
