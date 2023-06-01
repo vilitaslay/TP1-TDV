@@ -23,6 +23,7 @@ class GreedySolver
         TaxiAssignmentSolution getSolution() const;
         int getSolutionStatus() const;
         double getSolutionTime() const;
+        double getRent() const;
         
         
 	
@@ -30,6 +31,7 @@ class GreedySolver
         // Instance, problem and results attributes
         TaxiAssignmentInstance _instance;
         TaxiAssignmentSolution _solution;
+        double _rent;
         double _objective_value;
         int _solution_status;
         double _solution_time;

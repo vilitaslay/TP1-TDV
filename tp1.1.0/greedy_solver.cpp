@@ -7,6 +7,7 @@ GreedySolver::GreedySolver(TaxiAssignmentInstance &instance) {
     this->_objective_value = 0;
     this->_solution_status = 0;
     this->_solution_time = 000;
+    this->_rent = 0;
 }
 
 void GreedySolver::setInstance(TaxiAssignmentInstance &instance) {
@@ -23,15 +24,21 @@ void GreedySolver::solve() {
     double dist_total = 0;
     // Agarramos al primer pasajero y nos fijamos los taxis. Agarramos el taxi que esta mas cerca y asignamos el taxi, asi no lo puede usar otro usuario
     for(int i = 0; i<matrix_dist.size();i++){
-         double minimo = 999999;
-         for(int j = 0; j<matrix_dist.size();j++){
-             if(minimo>matrix_dist[j][i] && !solucion.isTaxiAssigned(j)){
-                minimo = matrix_dist[j][i];
-                min_pos = j;    
-            }
+        double minimo = 999999;
+        for(int j = 0; j<matrix_dist.size();j++){
+            if(minimo>matrix_dist[j][i] && !solucion.isTaxiAssigned(j)){
+               minimo = matrix_dist[j][i];
+               min_pos = j;    
+           }
         }
+        double aux = this->_instance.pax_tot_fare[i]*this->_instance.pax_trip_dist[i];
+        if(aux == 0){
+            aux = 0.01;
+        }
+        this->_rent += minimo/aux;
         dist_total += minimo;
         solucion.assign(min_pos, i);
+
     }
     //stop timer
     this->_objective_value = dist_total;
@@ -59,4 +66,7 @@ double GreedySolver::getSolutionTime() const {
     return this->_solution_time;
 }
 
+double GreedySolver::getRent() const {
+    return this->_rent;
+}
 
