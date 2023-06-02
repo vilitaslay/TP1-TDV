@@ -49,7 +49,7 @@ void BatchingSolver :: solve(int formato) {
         }
     }
     else{
-        this->_objective_value=(_grafo.OptimalCost())/10.00;
+        this->_objective_value=(_grafo.OptimalCost())/100;
         for (std::size_t i = 0; i < _grafo.NumArcs(); ++i){
             double aux=this->_instance.pax_trip_dist[_grafo.Head(i)-this->_instance.n];
             double aux1=this->_instance.pax_tot_fare[_grafo.Head(i)-this->_instance.n];
