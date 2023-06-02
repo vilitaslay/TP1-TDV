@@ -46,7 +46,7 @@ void BatchingSolver :: solve(int formato) {
         for (std::size_t i = 0; i < _grafo.NumArcs(); ++i) {
             this->_objective_value+=_grafo.Flow(i)*this->_instance.dist[_grafo.Tail(i)][_grafo.Head(i)-this->_instance.n]+0.00;              
         }
-        this->_rent=_grafo.OptimalCost()/100.00;     
+        this->_rent=_grafo.OptimalCost()/1000.00;     
     }
     else{
         this->_objective_value=(_grafo.OptimalCost())/10;
@@ -110,10 +110,15 @@ void BatchingSolver::create_graph(int formato) {
     else{
         for (int i = 0; i < taxis.size(); ++i) {
             int j=i%n;
-            double aux = precios[j]*distpas[j];
-            if (aux <=0){
-                aux=1;
+            double aux1=precios[j];
+            double aux2=distpas[j];
+            if (aux1 <=0){
+                aux1=1;
             }
+            if (aux2 <=0){
+                aux2=1;
+            }
+            double aux = aux1*aux2;
             parametro=(distancia[i]/aux)*100;
             int arc = _grafo.AddArcWithCapacityAndUnitCost(taxis[i], pasajeros[i], capacidad[i], parametro);
             if (arc != i) LOG(FATAL) << "Internal error";
