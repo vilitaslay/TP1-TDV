@@ -45,8 +45,6 @@ void BatchingSolver :: solve(int formato) {
     if(formato!=0){
         for (std::size_t i = 0; i < _grafo.NumArcs(); ++i) {
             this->_objective_value+=_grafo.Flow(i)*this->_instance.dist[_grafo.Tail(i)][_grafo.Head(i)-this->_instance.n]+0.00;
-            
-            
             this->_rent=_grafo.OptimalCost()/10;                   
         }
     }
@@ -62,8 +60,6 @@ void BatchingSolver :: solve(int formato) {
                     aux=0.05;
             }
             double aux2 = aux*aux1;
-      
-            
             this->_rent+=100*(_grafo.Flow(i)*this->_instance.dist[_grafo.Tail(i)][_grafo.Head(i)-this->_instance.n]+0.00)/(aux2);   
             // std::cout<<"taxi "<< _grafo.Tail(i) <<" ---> pax "<< _grafo.Head(i)- this->_instance.n << " Rentabilidad: " << (_grafo.Flow(i)*this->_instance.dist[_grafo.Tail(i)][_grafo.Head(i)-this->_instance.n]+0.00)/(aux2) << std::endl;         
         }
