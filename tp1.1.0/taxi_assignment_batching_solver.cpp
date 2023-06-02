@@ -45,7 +45,7 @@ void BatchingSolver :: solve(int formato) {
     if(formato!=0){
         for (std::size_t i = 0; i < _grafo.NumArcs(); ++i) {
             this->_objective_value+=_grafo.Flow(i)*this->_instance.dist[_grafo.Tail(i)][_grafo.Head(i)-this->_instance.n]+0.00;
-            this->_rent=_grafo.OptimalCost()/10;                   
+            this->_rent=_grafo.OptimalCost()/100;                   
         }
     }
     else{
@@ -54,10 +54,10 @@ void BatchingSolver :: solve(int formato) {
             double aux=this->_instance.pax_trip_dist[_grafo.Head(i)-this->_instance.n];
             double aux1=this->_instance.pax_tot_fare[_grafo.Head(i)-this->_instance.n];
             if(aux1<=0){
-                    aux1=0.05;
+                    aux1=1;
             }
             if(aux<=0){
-                    aux=0.05;
+                    aux=1;
             }
             double aux2 = aux*aux1;
             this->_rent+=100*(_grafo.Flow(i)*this->_instance.dist[_grafo.Tail(i)][_grafo.Head(i)-this->_instance.n]+0.00)/(aux2);   
@@ -113,7 +113,7 @@ void BatchingSolver::create_graph(int formato) {
             int j=i%n;
             double aux = precios[j]*distpas[j];
             if (aux <=0){
-                aux=0.05;
+                aux=1;
             }
             parametro=(distancia[i]/aux)*100;
             int arc = _grafo.AddArcWithCapacityAndUnitCost(taxis[i], pasajeros[i], capacidad[i], parametro);
