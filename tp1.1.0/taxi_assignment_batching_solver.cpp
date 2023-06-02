@@ -45,7 +45,7 @@ void BatchingSolver :: solve(int formato) {
     if(formato!=0){
         for (std::size_t i = 0; i < _grafo.NumArcs(); ++i) {
             this->_objective_value+=_grafo.Flow(i)*this->_instance.dist[_grafo.Tail(i)][_grafo.Head(i)-this->_instance.n]+0.00;
-            this->_rent=_grafo.OptimalCost()/10;                   
+            this->_rent=_grafo.OptimalCost()/10.00;                   
         }
     }
     else{
@@ -60,7 +60,7 @@ void BatchingSolver :: solve(int formato) {
                     aux=0.05;
             }
             double aux2 = aux*aux1;
-            this->_rent+=100*(_grafo.Flow(i)*this->_instance.dist[_grafo.Tail(i)][_grafo.Head(i)-this->_instance.n]+0.00)/(aux2);   
+            this->_rent+=100.00*(_grafo.Flow(i)*this->_instance.dist[_grafo.Tail(i)][_grafo.Head(i)-this->_instance.n]+0.00)/(aux2);   
             // std::cout<<"taxi "<< _grafo.Tail(i) <<" ---> pax "<< _grafo.Head(i)- this->_instance.n << " Rentabilidad: " << (_grafo.Flow(i)*this->_instance.dist[_grafo.Tail(i)][_grafo.Head(i)-this->_instance.n]+0.00)/(aux2) << std::endl;         
         }
     }
@@ -69,7 +69,7 @@ void BatchingSolver :: solve(int formato) {
     auto end = std::chrono::high_resolution_clock::now();
     auto elapse = std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin);
     this->_solution_time = elapse.count();
-    this->_rent/=100;
+    this->_rent/=100.00;
 }
 
 
